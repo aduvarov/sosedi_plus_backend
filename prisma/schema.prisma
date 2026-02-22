@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider     = "prisma-client"
+    output       = "../src/generated/prisma/client"
+    moduleFormat = "cjs"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+// Роли пользователей
+enum Role {
+    USER // Обычный сосед (может только смотреть свои данные)
+    ADMIN // Управдом (может добавлять расходы, принимать платежи)
+}
+
+// Пользователи (Жильцы и Управдом)
+model User {
+    id        Int      @id @default(autoincrement())
+    phone     String   @unique // Логин для входа
+    password  String // Хэш пароля
+    role      Role     @default(USER)
+    createdAt DateTime @default(now())
+
+    // Привязка аккаунта к конкретной квартире.
+    // Сделано необязательным (?), так как админ может быть наемным работником без квартиры в этом доме.
+    apartment   Apartment? @relation(fields: [apartmentId], references: [id])
+    apartmentId Int?       @unique
+}
+
+// Квартиры
+model Apartment {
+    id           Int           @id @default(autoincrement())
+    number       Int           @unique
+    user         User? // Обратная связь с пользователем
+    transactions Transaction[] // История всех начислений и платежей
+}
+
+// Категории расходов (вкл. системную "Аванс")
+model Category {
+    id           Int             @id @default(autoincrement())
+    name         String          @unique
+    isSystem     Boolean         @default(false)
+    expenses     GlobalExpense[]
+    transactions Transaction[]
+}
+
+// Общие сборы/расходы дома (например, акт выполненных работ на ремонт)
+model GlobalExpense {
+    id          Int      @id @default(autoincrement())
+    description String? // Описание, например "Покраска стен на 1 этаже"
+    totalAmount Float // Общая сумма
+    date        DateTime @default(now())
+
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+
+    // Ссылки на конкретные долги, которые сформировал этот расход
+    transactions Transaction[]
+}
+
+// Журнал операций (Ledger: начисления долгов и внесение платежей)
+model Transaction {
+    id          Int      @id @default(autoincrement())
+    amount      Float // Отрицательное = начислен долг, Положительное = поступила оплата
+    date        DateTime @default(now())
+    description String? // Комментарий к конкретной операции
+
+    apartmentId Int
+    apartment   Apartment @relation(fields: [apartmentId], references: [id])
+
+    categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+
+    // Если это начисление долга, оно привязывается к общему расходу
+    globalExpenseId Int?
+    globalExpense   GlobalExpense? @relation(fields: [globalExpenseId], references: [id])
+}
