@@ -42,6 +42,7 @@ export type UserMinAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  refreshToken: string | null
   apartmentId: number | null
 }
 
@@ -51,6 +52,7 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  refreshToken: string | null
   apartmentId: number | null
 }
 
@@ -60,6 +62,7 @@ export type UserCountAggregateOutputType = {
   password: number
   role: number
   createdAt: number
+  refreshToken: number
   apartmentId: number
   _all: number
 }
@@ -81,6 +84,7 @@ export type UserMinAggregateInputType = {
   password?: true
   role?: true
   createdAt?: true
+  refreshToken?: true
   apartmentId?: true
 }
 
@@ -90,6 +94,7 @@ export type UserMaxAggregateInputType = {
   password?: true
   role?: true
   createdAt?: true
+  refreshToken?: true
   apartmentId?: true
 }
 
@@ -99,6 +104,7 @@ export type UserCountAggregateInputType = {
   password?: true
   role?: true
   createdAt?: true
+  refreshToken?: true
   apartmentId?: true
   _all?: true
 }
@@ -195,6 +201,7 @@ export type UserGroupByOutputType = {
   password: string
   role: $Enums.Role
   createdAt: Date
+  refreshToken: string | null
   apartmentId: number | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -227,6 +234,7 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   apartmentId?: Prisma.IntNullableFilter<"User"> | number | null
   apartment?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
 }
@@ -237,6 +245,7 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   apartmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   apartment?: Prisma.ApartmentOrderByWithRelationInput
 }
@@ -251,6 +260,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   apartment?: Prisma.XOR<Prisma.ApartmentNullableScalarRelationFilter, Prisma.ApartmentWhereInput> | null
 }, "id" | "phone" | "apartmentId">
 
@@ -260,6 +270,7 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   apartmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -277,6 +288,7 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   apartmentId?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
 }
 
@@ -285,6 +297,7 @@ export type UserCreateInput = {
   password: string
   role?: $Enums.Role
   createdAt?: Date | string
+  refreshToken?: string | null
   apartment?: Prisma.ApartmentCreateNestedOneWithoutUserInput
 }
 
@@ -294,6 +307,7 @@ export type UserUncheckedCreateInput = {
   password: string
   role?: $Enums.Role
   createdAt?: Date | string
+  refreshToken?: string | null
   apartmentId?: number | null
 }
 
@@ -302,6 +316,7 @@ export type UserUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartment?: Prisma.ApartmentUpdateOneWithoutUserNestedInput
 }
 
@@ -311,6 +326,7 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -320,6 +336,7 @@ export type UserCreateManyInput = {
   password: string
   role?: $Enums.Role
   createdAt?: Date | string
+  refreshToken?: string | null
   apartmentId?: number | null
 }
 
@@ -328,6 +345,7 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -336,6 +354,7 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -345,6 +364,7 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   apartmentId?: Prisma.SortOrder
 }
 
@@ -359,6 +379,7 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   apartmentId?: Prisma.SortOrder
 }
 
@@ -368,6 +389,7 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   apartmentId?: Prisma.SortOrder
 }
 
@@ -391,6 +413,10 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -446,6 +472,7 @@ export type UserCreateWithoutApartmentInput = {
   password: string
   role?: $Enums.Role
   createdAt?: Date | string
+  refreshToken?: string | null
 }
 
 export type UserUncheckedCreateWithoutApartmentInput = {
@@ -454,6 +481,7 @@ export type UserUncheckedCreateWithoutApartmentInput = {
   password: string
   role?: $Enums.Role
   createdAt?: Date | string
+  refreshToken?: string | null
 }
 
 export type UserCreateOrConnectWithoutApartmentInput = {
@@ -477,6 +505,7 @@ export type UserUpdateWithoutApartmentInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateWithoutApartmentInput = {
@@ -485,6 +514,7 @@ export type UserUncheckedUpdateWithoutApartmentInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -495,6 +525,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   role?: boolean
   createdAt?: boolean
+  refreshToken?: boolean
   apartmentId?: boolean
   apartment?: boolean | Prisma.User$apartmentArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -505,6 +536,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   role?: boolean
   createdAt?: boolean
+  refreshToken?: boolean
   apartmentId?: boolean
   apartment?: boolean | Prisma.User$apartmentArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -515,6 +547,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   role?: boolean
   createdAt?: boolean
+  refreshToken?: boolean
   apartmentId?: boolean
   apartment?: boolean | Prisma.User$apartmentArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -525,10 +558,11 @@ export type UserSelectScalar = {
   password?: boolean
   role?: boolean
   createdAt?: boolean
+  refreshToken?: boolean
   apartmentId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "password" | "role" | "createdAt" | "apartmentId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "password" | "role" | "createdAt" | "refreshToken" | "apartmentId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   apartment?: boolean | Prisma.User$apartmentArgs<ExtArgs>
 }
@@ -550,6 +584,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string
     role: $Enums.Role
     createdAt: Date
+    refreshToken: string | null
     apartmentId: number | null
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -980,6 +1015,7 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly refreshToken: Prisma.FieldRef<"User", 'String'>
   readonly apartmentId: Prisma.FieldRef<"User", 'Int'>
 }
     

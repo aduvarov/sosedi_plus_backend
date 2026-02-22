@@ -6,7 +6,7 @@
 
 generator client {
     provider     = "prisma-client"
-    output       = "../src/generated/prisma/client"
+    output       = "../src/generated/prisma/"
     moduleFormat = "cjs"
 }
 
@@ -22,11 +22,12 @@ enum Role {
 
 // Пользователи (Жильцы и Управдом)
 model User {
-    id        Int      @id @default(autoincrement())
-    phone     String   @unique // Логин для входа
-    password  String // Хэш пароля
-    role      Role     @default(USER)
-    createdAt DateTime @default(now())
+    id           Int      @id @default(autoincrement())
+    phone        String   @unique // Логин для входа
+    password     String // Хэш пароля
+    role         Role     @default(USER)
+    createdAt    DateTime @default(now())
+    refreshToken String?
 
     // Привязка аккаунта к конкретной квартире.
     // Сделано необязательным (?), так как админ может быть наемным работником без квартиры в этом доме.

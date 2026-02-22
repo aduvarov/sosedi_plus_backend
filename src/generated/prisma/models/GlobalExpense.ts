@@ -424,10 +424,6 @@ export type GlobalExpenseUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.GlobalExpenseScalarWhereInput | Prisma.GlobalExpenseScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
