@@ -67,6 +67,7 @@ export class GlobalExpensesService {
 			orderBy: { date: 'desc' },
 			include: {
 				category: true,
+				transactions: true,
 			},
 		});
 	}
