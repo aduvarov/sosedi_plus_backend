@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ApartmentsModule } from './apartments/apartments.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { GlobalExpensesModule } from './global-expenses/global-expenses.module';
 
 @Module({
 	imports: [
@@ -19,6 +20,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 		AuthModule,
 		ApartmentsModule,
 		TransactionsModule,
+		GlobalExpensesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
