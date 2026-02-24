@@ -29,7 +29,9 @@ export class GlobalExpensesService {
 		}
 
 		// Считаем долю каждой квартиры
-		const shareAmount = totalAmount / participatingApartmentIds.length;
+		const shareAmount = Math.ceil(
+			totalAmount / participatingApartmentIds.length,
+		);
 
 		// Запускаем транзакцию БД (либо выполнится всё, либо ничего)
 		return this.prisma.$transaction(async (prisma) => {
