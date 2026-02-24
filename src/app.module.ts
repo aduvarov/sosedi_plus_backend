@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ApartmentsModule } from './apartments/apartments.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { GlobalExpensesModule } from './global-expenses/global-expenses.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { GlobalExpensesModule } from './global-expenses/global-expenses.module';
 		ApartmentsModule,
 		TransactionsModule,
 		GlobalExpensesModule,
+		CategoriesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
