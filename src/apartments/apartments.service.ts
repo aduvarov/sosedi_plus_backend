@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -34,10 +34,21 @@ export class ApartmentsService {
 	async findOne(id: number) {
 		const apt = await this.prisma.apartment.findUnique({
 			where: { id },
-			include: { transactions: true },
+			include: {
+				// Запрашиваем транзакции, отсортированные от новых к старым
+				transactions: {
+					orderBy: { date: 'desc' },
+					include: {
+						category: true, // Подтягиваем название категории
+						globalExpense: true, // Подтягиваем детали акта выполненных работ (если есть)
+					},
+				},
+			},
 		});
 
-		if (!apt) return null;
+		if (!apt) {
+			throw new NotFoundException(`Квартира с ID ${id} не найдена`);
+		}
 
 		const balance = apt.transactions.reduce(
 			(sum, tx) => sum + tx.amount,
