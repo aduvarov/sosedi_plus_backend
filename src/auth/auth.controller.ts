@@ -1,8 +1,16 @@
-import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	UseGuards,
+	Request,
+	Get,
+	NotFoundException,
+} from '@nestjs/common';
 import { AuthService, UserWithoutSecrets } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request as ExpressRequest } from 'express';
 import { Role } from '../generated/prisma/client';
+import { UsersService } from 'src/users/users.service';
 
 // 1. Тип для логина (LocalStrategy возвращает полного юзера без секретов)
 interface RequestWithUser extends ExpressRequest {
@@ -30,7 +38,10 @@ interface RequestWithRefresh extends ExpressRequest {
 
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(
+		private authService: AuthService,
+		private usersService: UsersService,
+	) {}
 
 	// Логин: используем RequestWithUser
 	@UseGuards(AuthGuard('local'))
@@ -56,10 +67,22 @@ export class AuthController {
 		return { message: 'Успешный выход' };
 	}
 
-	// Профиль: используем RequestWithJwt
+	// ... импорты ...
+	// Убедитесь, что импортирован NotFoundException из '@nestjs/common'
+
 	@UseGuards(AuthGuard('jwt'))
 	@Get('profile')
-	getProfile(@Request() req: RequestWithJwt) {
-		return req.user;
+	async getProfile(@Request() req: RequestWithJwt) {
+		// Ищем пользователя в базе по ID из токена
+		const user = await this.usersService.findById(req.user.id);
+		if (!user) {
+			throw new NotFoundException('Пользователь не найден');
+		}
+
+		// Отрезаем секретные данные перед отправкой на мобилку
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { password, refreshToken, ...safeUser } = user;
+
+		return safeUser;
 	}
 }
