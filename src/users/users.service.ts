@@ -1,4 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+	BadRequestException,
+	ConflictException,
+	Injectable,
+	NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role, User } from '../generated/prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -76,5 +81,41 @@ export class UsersService {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { password, refreshToken, ...result } = newUser;
 		return result;
+	}
+	// ДОБАВЛЯЕМ НОВЫЙ МЕТОД ДЛЯ СМЕНЫ ПАРОЛЯ
+	async changePassword(
+		userId: number,
+		oldPasswordPlain: string,
+		newPasswordPlain: string,
+	) {
+		// 1. Находим пользователя в базе
+		const user = await this.prisma.user.findUnique({
+			where: { id: userId },
+		});
+
+		if (!user) {
+			throw new NotFoundException('Пользователь не найден');
+		}
+
+		// 2. Проверяем, совпадает ли старый пароль с хешем в базе
+		const isPasswordValid = await bcrypt.compare(
+			oldPasswordPlain,
+			user.password,
+		);
+		if (!isPasswordValid) {
+			throw new BadRequestException('Текущий пароль введен неверно');
+		}
+
+		// 3. Хешируем новый пароль
+		const saltRounds = 10;
+		const hashedPassword = await bcrypt.hash(newPasswordPlain, saltRounds);
+
+		// 4. Обновляем пароль в базе данных
+		await this.prisma.user.update({
+			where: { id: userId },
+			data: { password: hashedPassword },
+		});
+
+		return { message: 'Пароль успешно изменен' };
 	}
 }
