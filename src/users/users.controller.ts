@@ -5,6 +5,10 @@ import {
 	UseGuards,
 	Request,
 	Patch,
+	Get,
+	Delete,
+	Param,
+	ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -31,12 +35,14 @@ export class UsersController {
 			phone: string;
 			passwordPlain: string;
 			apartmentId: number;
+			fullName?: string;
 		},
 	) {
 		return this.usersService.createUser(
 			body.phone,
 			body.passwordPlain,
 			body.apartmentId,
+			body.fullName,
 		);
 	}
 
@@ -50,5 +56,34 @@ export class UsersController {
 			body.oldPasswordPlain,
 			body.newPasswordPlain,
 		);
+	}
+	// ПОЛУЧИТЬ СПИСОК ВСЕХ ЖИЛЬЦОВ (Только для Админа)
+	@Get()
+	@Roles(Role.ADMIN)
+	async getAllUsers() {
+		return this.usersService.findAllUsers();
+	}
+
+	// УДАЛИТЬ ЖИЛЬЦА (Только для Админа)
+	@Delete(':id')
+	@Roles(Role.ADMIN)
+	async deleteUser(@Param('id', ParseIntPipe) id: number) {
+		return this.usersService.deleteUser(id);
+	}
+
+	// РЕДАКТИРОВАТЬ ЖИЛЬЦА (Только для Админа)
+	@Patch(':id')
+	@Roles(Role.ADMIN)
+	async updateUser(
+		@Param('id', ParseIntPipe) id: number,
+		@Body()
+		body: {
+			phone?: string;
+			fullName?: string;
+			passwordPlain?: string;
+			apartmentId?: number;
+		},
+	) {
+		return this.usersService.updateUser(id, body);
 	}
 }

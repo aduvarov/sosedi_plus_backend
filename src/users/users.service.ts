@@ -44,6 +44,7 @@ export class UsersService {
 		phone: string,
 		passwordPlain: string,
 		apartmentId: number,
+		fullName?: string,
 	) {
 		// 1. Проверяем, не занят ли телефон
 		const existingUser = await this.findByPhone(phone);
@@ -74,6 +75,7 @@ export class UsersService {
 				password: hashedPassword,
 				role: Role.USER,
 				apartmentId,
+				fullName,
 			},
 		});
 
@@ -117,5 +119,109 @@ export class UsersService {
 		});
 
 		return { message: 'Пароль успешно изменен' };
+	}
+
+	// ПОЛУЧИТЬ ВСЕХ ЖИЛЬЦОВ (с номерами их квартир)
+	async findAllUsers() {
+		return this.prisma.user.findMany({
+			select: {
+				id: true,
+				phone: true,
+				fullName: true,
+				role: true,
+				createdAt: true,
+				apartmentId: true,
+				apartment: {
+					select: { number: true },
+				},
+			},
+			orderBy: { apartmentId: 'asc' }, // Сортируем по номеру квартиры
+		});
+	}
+
+	// УДАЛИТЬ ЖИЛЬЦА
+	async deleteUser(id: number) {
+		const user = await this.prisma.user.findUnique({ where: { id } });
+		if (!user) {
+			throw new NotFoundException('Пользователь не найден');
+		}
+
+		if (user.role === Role.ADMIN) {
+			throw new BadRequestException(
+				'Нельзя удалить администратора (Управдома)',
+			);
+		}
+
+		return this.prisma.user.delete({
+			where: { id },
+		});
+	}
+
+	// ОБНОВИТЬ ДАННЫЕ ЖИЛЬЦА (Для Управдома)
+	async updateUser(
+		id: number,
+		data: {
+			phone?: string;
+			fullName?: string;
+			passwordPlain?: string;
+			apartmentId?: number;
+		},
+	) {
+		const user = await this.prisma.user.findUnique({ where: { id } });
+		if (!user) {
+			throw new NotFoundException('Пользователь не найден');
+		}
+
+		// Если меняем телефон, проверяем, не занят ли он ДРУГИМ пользователем
+		if (data.phone && data.phone !== user.phone) {
+			const existingPhone = await this.findByPhone(data.phone);
+			if (existingPhone) {
+				throw new ConflictException(
+					'Этот номер телефона уже используется',
+				);
+			}
+		}
+
+		// Если меняем квартиру, проверяем, не занята ли она ДРУГИМ пользователем
+		if (data.apartmentId && data.apartmentId !== user.apartmentId) {
+			const existingAptUser = await this.prisma.user.findUnique({
+				where: { apartmentId: data.apartmentId },
+			});
+			if (existingAptUser) {
+				throw new ConflictException(
+					'У этой квартиры уже есть зарегистрированный владелец',
+				);
+			}
+		}
+
+		// СТРОГАЯ ТИПИЗАЦИЯ ВМЕСТО any
+		const updateData: {
+			phone?: string;
+			fullName?: string;
+			apartmentId?: number;
+			password?: string;
+		} = {};
+
+		if (data.phone) updateData.phone = data.phone;
+		if (data.fullName !== undefined) updateData.fullName = data.fullName;
+		if (data.apartmentId !== undefined)
+			updateData.apartmentId = data.apartmentId;
+
+		// Если админ ввел новый пароль, хешируем его
+		if (data.passwordPlain) {
+			updateData.password = await bcrypt.hash(data.passwordPlain, 10);
+		}
+
+		return this.prisma.user.update({
+			where: { id },
+			data: updateData,
+			select: {
+				id: true,
+				phone: true,
+				fullName: true,
+				role: true,
+				apartmentId: true,
+			}, // Возвращаем без секретов
+		});
 	}
 }

@@ -25,6 +25,7 @@ model User {
     id           Int      @id @default(autoincrement())
     phone        String   @unique // Логин для входа
     password     String // Хэш пароля
+    fullName     String?
     role         Role     @default(USER)
     createdAt    DateTime @default(now())
     refreshToken String?
