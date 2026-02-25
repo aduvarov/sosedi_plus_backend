@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	UseGuards,
+	Delete,
+	Param,
+	ParseIntPipe,
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -21,5 +30,12 @@ export class CategoriesController {
 	@Roles(Role.ADMIN)
 	async createCategory(@Body() body: { name: string; isSystem?: boolean }) {
 		return this.categoriesService.create(body.name, body.isSystem);
+	}
+
+	// Удаление: Доступно ТОЛЬКО Админу
+	@Delete(':id')
+	@Roles(Role.ADMIN)
+	async deleteCategory(@Param('id', ParseIntPipe) id: number) {
+		return this.categoriesService.remove(id);
 	}
 }
