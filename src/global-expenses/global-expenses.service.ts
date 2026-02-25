@@ -69,7 +69,13 @@ export class GlobalExpensesService {
 			orderBy: { date: 'desc' },
 			include: {
 				category: true,
-				transactions: true,
+				transactions: {
+					select: {
+						apartment: {
+							select: { number: true },
+						},
+					},
+				},
 			},
 		});
 	}
