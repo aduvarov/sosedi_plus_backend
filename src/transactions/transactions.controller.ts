@@ -25,4 +25,20 @@ export class TransactionsController {
 	) {
 		return this.transactionsService.create(body);
 	}
+
+	// ЭНДПОИНТ ДЛЯ ОПЛАТЫ КОНКРЕТНОГО СЧЕТА
+	@Post('pay-debt')
+	@Roles(Role.ADMIN)
+	async payDebtFromBalance(
+		@Body()
+		body: {
+			apartmentId: number;
+			debtTransactionId: number; // Теперь мы принимаем ID конкретной квитанции
+		},
+	) {
+		return this.transactionsService.payDebtFromBalance(
+			body.apartmentId,
+			body.debtTransactionId,
+		);
+	}
 }

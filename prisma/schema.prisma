@@ -83,4 +83,9 @@ model Transaction {
     // Если это начисление долга, оно привязывается к общему расходу
     globalExpenseId Int?
     globalExpense   GlobalExpense? @relation(fields: [globalExpenseId], references: [id])
+
+    // --- ПОЛЯ ДЛЯ ПРИВЯЗКИ ОПЛАТЫ К КОНКРЕТНОМУ ДОЛГУ ---
+    linkedDebtId Int?
+    linkedDebt   Transaction?  @relation("DebtToPayment", fields: [linkedDebtId], references: [id])
+    payments     Transaction[] @relation("DebtToPayment")
 }

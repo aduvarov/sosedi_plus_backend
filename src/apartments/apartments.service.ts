@@ -35,12 +35,12 @@ export class ApartmentsService {
 		const apt = await this.prisma.apartment.findUnique({
 			where: { id },
 			include: {
-				// Запрашиваем транзакции, отсортированные от новых к старым
 				transactions: {
 					orderBy: { date: 'desc' },
 					include: {
-						category: true, // Подтягиваем название категории
-						globalExpense: true, // Подтягиваем детали акта выполненных работ (если есть)
+						category: true,
+						globalExpense: true,
+						payments: true, // <-- МАГИЯ ПРИСМЫ: сразу тянем привязанные оплаты!
 					},
 				},
 			},
@@ -50,11 +50,45 @@ export class ApartmentsService {
 			throw new NotFoundException(`Квартира с ID ${id} не найдена`);
 		}
 
-		const balance = apt.transactions.reduce(
-			(sum, tx) => sum + tx.amount,
-			0,
+		// 1. Считаем свободный баланс (Кошелек - Категория 1)
+		const walletBalance = apt.transactions
+			.filter((tx) => tx.categoryId === 1)
+			.reduce((sum, tx) => sum + tx.amount, 0);
+
+		// 2. Вычисляем активные долги (Минус + Не кошелек + Нет оплат)
+		const activeDebts = apt.transactions.filter(
+			(tx) =>
+				tx.amount < 0 &&
+				tx.categoryId !== 1 &&
+				tx.payments.length === 0, // Если массив оплат пуст - значит долг висит!
 		);
 
-		return { ...apt, balance };
+		const totalDebt = activeDebts.reduce((sum, tx) => sum + tx.amount, 0);
+
+		// 3. Обогащаем историю транзакций статусами
+		const enrichedTransactions = apt.transactions.map((tx) => {
+			let paymentStatus: 'PAID' | 'UNPAID' | null = null;
+			// Если это счет на оплату (минус не в кошельке)
+			if (tx.amount < 0 && tx.categoryId !== 1) {
+				paymentStatus = tx.payments.length > 0 ? 'PAID' : 'UNPAID';
+			}
+
+			// Убираем массив payments из ответа, чтобы не засорять JSON фронтенду
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { payments, ...cleanTx } = tx;
+
+			return {
+				...cleanTx,
+				paymentStatus,
+			};
+		});
+
+		return {
+			...apt,
+			walletBalance,
+			totalDebt,
+			activeDebts,
+			transactions: enrichedTransactions,
+		};
 	}
 }

@@ -32,6 +32,7 @@ export type TransactionAvgAggregateOutputType = {
   apartmentId: number | null
   categoryId: number | null
   globalExpenseId: number | null
+  linkedDebtId: number | null
 }
 
 export type TransactionSumAggregateOutputType = {
@@ -40,6 +41,7 @@ export type TransactionSumAggregateOutputType = {
   apartmentId: number | null
   categoryId: number | null
   globalExpenseId: number | null
+  linkedDebtId: number | null
 }
 
 export type TransactionMinAggregateOutputType = {
@@ -50,6 +52,7 @@ export type TransactionMinAggregateOutputType = {
   apartmentId: number | null
   categoryId: number | null
   globalExpenseId: number | null
+  linkedDebtId: number | null
 }
 
 export type TransactionMaxAggregateOutputType = {
@@ -60,6 +63,7 @@ export type TransactionMaxAggregateOutputType = {
   apartmentId: number | null
   categoryId: number | null
   globalExpenseId: number | null
+  linkedDebtId: number | null
 }
 
 export type TransactionCountAggregateOutputType = {
@@ -70,6 +74,7 @@ export type TransactionCountAggregateOutputType = {
   apartmentId: number
   categoryId: number
   globalExpenseId: number
+  linkedDebtId: number
   _all: number
 }
 
@@ -80,6 +85,7 @@ export type TransactionAvgAggregateInputType = {
   apartmentId?: true
   categoryId?: true
   globalExpenseId?: true
+  linkedDebtId?: true
 }
 
 export type TransactionSumAggregateInputType = {
@@ -88,6 +94,7 @@ export type TransactionSumAggregateInputType = {
   apartmentId?: true
   categoryId?: true
   globalExpenseId?: true
+  linkedDebtId?: true
 }
 
 export type TransactionMinAggregateInputType = {
@@ -98,6 +105,7 @@ export type TransactionMinAggregateInputType = {
   apartmentId?: true
   categoryId?: true
   globalExpenseId?: true
+  linkedDebtId?: true
 }
 
 export type TransactionMaxAggregateInputType = {
@@ -108,6 +116,7 @@ export type TransactionMaxAggregateInputType = {
   apartmentId?: true
   categoryId?: true
   globalExpenseId?: true
+  linkedDebtId?: true
 }
 
 export type TransactionCountAggregateInputType = {
@@ -118,6 +127,7 @@ export type TransactionCountAggregateInputType = {
   apartmentId?: true
   categoryId?: true
   globalExpenseId?: true
+  linkedDebtId?: true
   _all?: true
 }
 
@@ -215,6 +225,7 @@ export type TransactionGroupByOutputType = {
   apartmentId: number
   categoryId: number
   globalExpenseId: number | null
+  linkedDebtId: number | null
   _count: TransactionCountAggregateOutputType | null
   _avg: TransactionAvgAggregateOutputType | null
   _sum: TransactionSumAggregateOutputType | null
@@ -248,9 +259,12 @@ export type TransactionWhereInput = {
   apartmentId?: Prisma.IntFilter<"Transaction"> | number
   categoryId?: Prisma.IntFilter<"Transaction"> | number
   globalExpenseId?: Prisma.IntNullableFilter<"Transaction"> | number | null
+  linkedDebtId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   apartment?: Prisma.XOR<Prisma.ApartmentScalarRelationFilter, Prisma.ApartmentWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   globalExpense?: Prisma.XOR<Prisma.GlobalExpenseNullableScalarRelationFilter, Prisma.GlobalExpenseWhereInput> | null
+  linkedDebt?: Prisma.XOR<Prisma.TransactionNullableScalarRelationFilter, Prisma.TransactionWhereInput> | null
+  payments?: Prisma.TransactionListRelationFilter
 }
 
 export type TransactionOrderByWithRelationInput = {
@@ -261,9 +275,12 @@ export type TransactionOrderByWithRelationInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrderInput | Prisma.SortOrder
   apartment?: Prisma.ApartmentOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
   globalExpense?: Prisma.GlobalExpenseOrderByWithRelationInput
+  linkedDebt?: Prisma.TransactionOrderByWithRelationInput
+  payments?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -277,9 +294,12 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   apartmentId?: Prisma.IntFilter<"Transaction"> | number
   categoryId?: Prisma.IntFilter<"Transaction"> | number
   globalExpenseId?: Prisma.IntNullableFilter<"Transaction"> | number | null
+  linkedDebtId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   apartment?: Prisma.XOR<Prisma.ApartmentScalarRelationFilter, Prisma.ApartmentWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   globalExpense?: Prisma.XOR<Prisma.GlobalExpenseNullableScalarRelationFilter, Prisma.GlobalExpenseWhereInput> | null
+  linkedDebt?: Prisma.XOR<Prisma.TransactionNullableScalarRelationFilter, Prisma.TransactionWhereInput> | null
+  payments?: Prisma.TransactionListRelationFilter
 }, "id">
 
 export type TransactionOrderByWithAggregationInput = {
@@ -290,6 +310,7 @@ export type TransactionOrderByWithAggregationInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TransactionCountOrderByAggregateInput
   _avg?: Prisma.TransactionAvgOrderByAggregateInput
   _max?: Prisma.TransactionMaxOrderByAggregateInput
@@ -308,6 +329,7 @@ export type TransactionScalarWhereWithAggregatesInput = {
   apartmentId?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
   categoryId?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
   globalExpenseId?: Prisma.IntNullableWithAggregatesFilter<"Transaction"> | number | null
+  linkedDebtId?: Prisma.IntNullableWithAggregatesFilter<"Transaction"> | number | null
 }
 
 export type TransactionCreateInput = {
@@ -317,6 +339,8 @@ export type TransactionCreateInput = {
   apartment: Prisma.ApartmentCreateNestedOneWithoutTransactionsInput
   category: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
   globalExpense?: Prisma.GlobalExpenseCreateNestedOneWithoutTransactionsInput
+  linkedDebt?: Prisma.TransactionCreateNestedOneWithoutPaymentsInput
+  payments?: Prisma.TransactionCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionUncheckedCreateInput = {
@@ -327,6 +351,8 @@ export type TransactionUncheckedCreateInput = {
   apartmentId: number
   categoryId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
+  payments?: Prisma.TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionUpdateInput = {
@@ -336,6 +362,8 @@ export type TransactionUpdateInput = {
   apartment?: Prisma.ApartmentUpdateOneRequiredWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutTransactionsNestedInput
   globalExpense?: Prisma.GlobalExpenseUpdateOneWithoutTransactionsNestedInput
+  linkedDebt?: Prisma.TransactionUpdateOneWithoutPaymentsNestedInput
+  payments?: Prisma.TransactionUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateInput = {
@@ -346,6 +374,8 @@ export type TransactionUncheckedUpdateInput = {
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  payments?: Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionCreateManyInput = {
@@ -356,6 +386,7 @@ export type TransactionCreateManyInput = {
   apartmentId: number
   categoryId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
 }
 
 export type TransactionUpdateManyMutationInput = {
@@ -372,6 +403,7 @@ export type TransactionUncheckedUpdateManyInput = {
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TransactionListRelationFilter = {
@@ -384,6 +416,11 @@ export type TransactionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type TransactionNullableScalarRelationFilter = {
+  is?: Prisma.TransactionWhereInput | null
+  isNot?: Prisma.TransactionWhereInput | null
+}
+
 export type TransactionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
@@ -392,6 +429,7 @@ export type TransactionCountOrderByAggregateInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrder
 }
 
 export type TransactionAvgOrderByAggregateInput = {
@@ -400,6 +438,7 @@ export type TransactionAvgOrderByAggregateInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrder
 }
 
 export type TransactionMaxOrderByAggregateInput = {
@@ -410,6 +449,7 @@ export type TransactionMaxOrderByAggregateInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrder
 }
 
 export type TransactionMinOrderByAggregateInput = {
@@ -420,6 +460,7 @@ export type TransactionMinOrderByAggregateInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrder
 }
 
 export type TransactionSumOrderByAggregateInput = {
@@ -428,6 +469,7 @@ export type TransactionSumOrderByAggregateInput = {
   apartmentId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   globalExpenseId?: Prisma.SortOrder
+  linkedDebtId?: Prisma.SortOrder
 }
 
 export type TransactionCreateNestedManyWithoutApartmentInput = {
@@ -556,12 +598,72 @@ export type TransactionUncheckedUpdateManyWithoutGlobalExpenseNestedInput = {
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
+export type TransactionCreateNestedOneWithoutPaymentsInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutPaymentsInput, Prisma.TransactionUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutPaymentsInput
+  connect?: Prisma.TransactionWhereUniqueInput
+}
+
+export type TransactionCreateNestedManyWithoutLinkedDebtInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput> | Prisma.TransactionCreateWithoutLinkedDebtInput[] | Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput | Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput[]
+  createMany?: Prisma.TransactionCreateManyLinkedDebtInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+}
+
+export type TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput> | Prisma.TransactionCreateWithoutLinkedDebtInput[] | Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput | Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput[]
+  createMany?: Prisma.TransactionCreateManyLinkedDebtInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+}
+
+export type TransactionUpdateOneWithoutPaymentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutPaymentsInput, Prisma.TransactionUncheckedCreateWithoutPaymentsInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutPaymentsInput
+  upsert?: Prisma.TransactionUpsertWithoutPaymentsInput
+  disconnect?: Prisma.TransactionWhereInput | boolean
+  delete?: Prisma.TransactionWhereInput | boolean
+  connect?: Prisma.TransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutPaymentsInput, Prisma.TransactionUpdateWithoutPaymentsInput>, Prisma.TransactionUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type TransactionUpdateManyWithoutLinkedDebtNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput> | Prisma.TransactionCreateWithoutLinkedDebtInput[] | Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput | Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutLinkedDebtInput | Prisma.TransactionUpsertWithWhereUniqueWithoutLinkedDebtInput[]
+  createMany?: Prisma.TransactionCreateManyLinkedDebtInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutLinkedDebtInput | Prisma.TransactionUpdateWithWhereUniqueWithoutLinkedDebtInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutLinkedDebtInput | Prisma.TransactionUpdateManyWithWhereWithoutLinkedDebtInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
+}
+
+export type TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput> | Prisma.TransactionCreateWithoutLinkedDebtInput[] | Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput | Prisma.TransactionCreateOrConnectWithoutLinkedDebtInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutLinkedDebtInput | Prisma.TransactionUpsertWithWhereUniqueWithoutLinkedDebtInput[]
+  createMany?: Prisma.TransactionCreateManyLinkedDebtInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutLinkedDebtInput | Prisma.TransactionUpdateWithWhereUniqueWithoutLinkedDebtInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutLinkedDebtInput | Prisma.TransactionUpdateManyWithWhereWithoutLinkedDebtInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
+}
+
 export type TransactionCreateWithoutApartmentInput = {
   amount: number
   date?: Date | string
   description?: string | null
   category: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
   globalExpense?: Prisma.GlobalExpenseCreateNestedOneWithoutTransactionsInput
+  linkedDebt?: Prisma.TransactionCreateNestedOneWithoutPaymentsInput
+  payments?: Prisma.TransactionCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionUncheckedCreateWithoutApartmentInput = {
@@ -571,6 +673,8 @@ export type TransactionUncheckedCreateWithoutApartmentInput = {
   description?: string | null
   categoryId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
+  payments?: Prisma.TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionCreateOrConnectWithoutApartmentInput = {
@@ -610,6 +714,7 @@ export type TransactionScalarWhereInput = {
   apartmentId?: Prisma.IntFilter<"Transaction"> | number
   categoryId?: Prisma.IntFilter<"Transaction"> | number
   globalExpenseId?: Prisma.IntNullableFilter<"Transaction"> | number | null
+  linkedDebtId?: Prisma.IntNullableFilter<"Transaction"> | number | null
 }
 
 export type TransactionCreateWithoutCategoryInput = {
@@ -618,6 +723,8 @@ export type TransactionCreateWithoutCategoryInput = {
   description?: string | null
   apartment: Prisma.ApartmentCreateNestedOneWithoutTransactionsInput
   globalExpense?: Prisma.GlobalExpenseCreateNestedOneWithoutTransactionsInput
+  linkedDebt?: Prisma.TransactionCreateNestedOneWithoutPaymentsInput
+  payments?: Prisma.TransactionCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionUncheckedCreateWithoutCategoryInput = {
@@ -627,6 +734,8 @@ export type TransactionUncheckedCreateWithoutCategoryInput = {
   description?: string | null
   apartmentId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
+  payments?: Prisma.TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionCreateOrConnectWithoutCategoryInput = {
@@ -661,6 +770,8 @@ export type TransactionCreateWithoutGlobalExpenseInput = {
   description?: string | null
   apartment: Prisma.ApartmentCreateNestedOneWithoutTransactionsInput
   category: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
+  linkedDebt?: Prisma.TransactionCreateNestedOneWithoutPaymentsInput
+  payments?: Prisma.TransactionCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionUncheckedCreateWithoutGlobalExpenseInput = {
@@ -670,6 +781,8 @@ export type TransactionUncheckedCreateWithoutGlobalExpenseInput = {
   description?: string | null
   apartmentId: number
   categoryId: number
+  linkedDebtId?: number | null
+  payments?: Prisma.TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput
 }
 
 export type TransactionCreateOrConnectWithoutGlobalExpenseInput = {
@@ -698,6 +811,111 @@ export type TransactionUpdateManyWithWhereWithoutGlobalExpenseInput = {
   data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutGlobalExpenseInput>
 }
 
+export type TransactionCreateWithoutPaymentsInput = {
+  amount: number
+  date?: Date | string
+  description?: string | null
+  apartment: Prisma.ApartmentCreateNestedOneWithoutTransactionsInput
+  category: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
+  globalExpense?: Prisma.GlobalExpenseCreateNestedOneWithoutTransactionsInput
+  linkedDebt?: Prisma.TransactionCreateNestedOneWithoutPaymentsInput
+}
+
+export type TransactionUncheckedCreateWithoutPaymentsInput = {
+  id?: number
+  amount: number
+  date?: Date | string
+  description?: string | null
+  apartmentId: number
+  categoryId: number
+  globalExpenseId?: number | null
+  linkedDebtId?: number | null
+}
+
+export type TransactionCreateOrConnectWithoutPaymentsInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutPaymentsInput, Prisma.TransactionUncheckedCreateWithoutPaymentsInput>
+}
+
+export type TransactionCreateWithoutLinkedDebtInput = {
+  amount: number
+  date?: Date | string
+  description?: string | null
+  apartment: Prisma.ApartmentCreateNestedOneWithoutTransactionsInput
+  category: Prisma.CategoryCreateNestedOneWithoutTransactionsInput
+  globalExpense?: Prisma.GlobalExpenseCreateNestedOneWithoutTransactionsInput
+  payments?: Prisma.TransactionCreateNestedManyWithoutLinkedDebtInput
+}
+
+export type TransactionUncheckedCreateWithoutLinkedDebtInput = {
+  id?: number
+  amount: number
+  date?: Date | string
+  description?: string | null
+  apartmentId: number
+  categoryId: number
+  globalExpenseId?: number | null
+  payments?: Prisma.TransactionUncheckedCreateNestedManyWithoutLinkedDebtInput
+}
+
+export type TransactionCreateOrConnectWithoutLinkedDebtInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput>
+}
+
+export type TransactionCreateManyLinkedDebtInputEnvelope = {
+  data: Prisma.TransactionCreateManyLinkedDebtInput | Prisma.TransactionCreateManyLinkedDebtInput[]
+  skipDuplicates?: boolean
+}
+
+export type TransactionUpsertWithoutPaymentsInput = {
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutPaymentsInput, Prisma.TransactionUncheckedUpdateWithoutPaymentsInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutPaymentsInput, Prisma.TransactionUncheckedCreateWithoutPaymentsInput>
+  where?: Prisma.TransactionWhereInput
+}
+
+export type TransactionUpdateToOneWithWhereWithoutPaymentsInput = {
+  where?: Prisma.TransactionWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateWithoutPaymentsInput, Prisma.TransactionUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type TransactionUpdateWithoutPaymentsInput = {
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apartment?: Prisma.ApartmentUpdateOneRequiredWithoutTransactionsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutTransactionsNestedInput
+  globalExpense?: Prisma.GlobalExpenseUpdateOneWithoutTransactionsNestedInput
+  linkedDebt?: Prisma.TransactionUpdateOneWithoutPaymentsNestedInput
+}
+
+export type TransactionUncheckedUpdateWithoutPaymentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type TransactionUpsertWithWhereUniqueWithoutLinkedDebtInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutLinkedDebtInput, Prisma.TransactionUncheckedUpdateWithoutLinkedDebtInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutLinkedDebtInput, Prisma.TransactionUncheckedCreateWithoutLinkedDebtInput>
+}
+
+export type TransactionUpdateWithWhereUniqueWithoutLinkedDebtInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.TransactionUpdateWithoutLinkedDebtInput, Prisma.TransactionUncheckedUpdateWithoutLinkedDebtInput>
+}
+
+export type TransactionUpdateManyWithWhereWithoutLinkedDebtInput = {
+  where: Prisma.TransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtInput>
+}
+
 export type TransactionCreateManyApartmentInput = {
   id?: number
   amount: number
@@ -705,6 +923,7 @@ export type TransactionCreateManyApartmentInput = {
   description?: string | null
   categoryId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
 }
 
 export type TransactionUpdateWithoutApartmentInput = {
@@ -713,6 +932,8 @@ export type TransactionUpdateWithoutApartmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.CategoryUpdateOneRequiredWithoutTransactionsNestedInput
   globalExpense?: Prisma.GlobalExpenseUpdateOneWithoutTransactionsNestedInput
+  linkedDebt?: Prisma.TransactionUpdateOneWithoutPaymentsNestedInput
+  payments?: Prisma.TransactionUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutApartmentInput = {
@@ -722,6 +943,8 @@ export type TransactionUncheckedUpdateWithoutApartmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  payments?: Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutApartmentInput = {
@@ -731,6 +954,7 @@ export type TransactionUncheckedUpdateManyWithoutApartmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TransactionCreateManyCategoryInput = {
@@ -740,6 +964,7 @@ export type TransactionCreateManyCategoryInput = {
   description?: string | null
   apartmentId: number
   globalExpenseId?: number | null
+  linkedDebtId?: number | null
 }
 
 export type TransactionUpdateWithoutCategoryInput = {
@@ -748,6 +973,8 @@ export type TransactionUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartment?: Prisma.ApartmentUpdateOneRequiredWithoutTransactionsNestedInput
   globalExpense?: Prisma.GlobalExpenseUpdateOneWithoutTransactionsNestedInput
+  linkedDebt?: Prisma.TransactionUpdateOneWithoutPaymentsNestedInput
+  payments?: Prisma.TransactionUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCategoryInput = {
@@ -757,6 +984,8 @@ export type TransactionUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  payments?: Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutCategoryInput = {
@@ -766,6 +995,7 @@ export type TransactionUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TransactionCreateManyGlobalExpenseInput = {
@@ -775,6 +1005,7 @@ export type TransactionCreateManyGlobalExpenseInput = {
   description?: string | null
   apartmentId: number
   categoryId: number
+  linkedDebtId?: number | null
 }
 
 export type TransactionUpdateWithoutGlobalExpenseInput = {
@@ -783,6 +1014,8 @@ export type TransactionUpdateWithoutGlobalExpenseInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartment?: Prisma.ApartmentUpdateOneRequiredWithoutTransactionsNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutTransactionsNestedInput
+  linkedDebt?: Prisma.TransactionUpdateOneWithoutPaymentsNestedInput
+  payments?: Prisma.TransactionUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutGlobalExpenseInput = {
@@ -792,6 +1025,8 @@ export type TransactionUncheckedUpdateWithoutGlobalExpenseInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  payments?: Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutGlobalExpenseInput = {
@@ -801,8 +1036,79 @@ export type TransactionUncheckedUpdateManyWithoutGlobalExpenseInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  linkedDebtId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
+export type TransactionCreateManyLinkedDebtInput = {
+  id?: number
+  amount: number
+  date?: Date | string
+  description?: string | null
+  apartmentId: number
+  categoryId: number
+  globalExpenseId?: number | null
+}
+
+export type TransactionUpdateWithoutLinkedDebtInput = {
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apartment?: Prisma.ApartmentUpdateOneRequiredWithoutTransactionsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutTransactionsNestedInput
+  globalExpense?: Prisma.GlobalExpenseUpdateOneWithoutTransactionsNestedInput
+  payments?: Prisma.TransactionUpdateManyWithoutLinkedDebtNestedInput
+}
+
+export type TransactionUncheckedUpdateWithoutLinkedDebtInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  payments?: Prisma.TransactionUncheckedUpdateManyWithoutLinkedDebtNestedInput
+}
+
+export type TransactionUncheckedUpdateManyWithoutLinkedDebtInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apartmentId?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  globalExpenseId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+
+/**
+ * Count Type TransactionCountOutputType
+ */
+
+export type TransactionCountOutputType = {
+  payments: number
+}
+
+export type TransactionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  payments?: boolean | TransactionCountOutputTypeCountPaymentsArgs
+}
+
+/**
+ * TransactionCountOutputType without action
+ */
+export type TransactionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransactionCountOutputType
+   */
+  select?: Prisma.TransactionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TransactionCountOutputType without action
+ */
+export type TransactionCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
 
 
 export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -813,9 +1119,13 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   apartmentId?: boolean
   categoryId?: boolean
   globalExpenseId?: boolean
+  linkedDebtId?: boolean
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
+  payments?: boolean | Prisma.Transaction$paymentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -826,9 +1136,11 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   apartmentId?: boolean
   categoryId?: boolean
   globalExpenseId?: boolean
+  linkedDebtId?: boolean
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -839,9 +1151,11 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   apartmentId?: boolean
   categoryId?: boolean
   globalExpenseId?: boolean
+  linkedDebtId?: boolean
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectScalar = {
@@ -852,23 +1166,29 @@ export type TransactionSelectScalar = {
   apartmentId?: boolean
   categoryId?: boolean
   globalExpenseId?: boolean
+  linkedDebtId?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "date" | "description" | "apartmentId" | "categoryId" | "globalExpenseId", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "date" | "description" | "apartmentId" | "categoryId" | "globalExpenseId" | "linkedDebtId", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
+  payments?: boolean | Prisma.Transaction$paymentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
 }
 export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   apartment?: boolean | Prisma.ApartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   globalExpense?: boolean | Prisma.Transaction$globalExpenseArgs<ExtArgs>
+  linkedDebt?: boolean | Prisma.Transaction$linkedDebtArgs<ExtArgs>
 }
 
 export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -877,6 +1197,8 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     apartment: Prisma.$ApartmentPayload<ExtArgs>
     category: Prisma.$CategoryPayload<ExtArgs>
     globalExpense: Prisma.$GlobalExpensePayload<ExtArgs> | null
+    linkedDebt: Prisma.$TransactionPayload<ExtArgs> | null
+    payments: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -886,6 +1208,7 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     apartmentId: number
     categoryId: number
     globalExpenseId: number | null
+    linkedDebtId: number | null
   }, ExtArgs["result"]["transaction"]>
   composites: {}
 }
@@ -1283,6 +1606,8 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
   apartment<T extends Prisma.ApartmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ApartmentDefaultArgs<ExtArgs>>): Prisma.Prisma__ApartmentClient<runtime.Types.Result.GetResult<Prisma.$ApartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   globalExpense<T extends Prisma.Transaction$globalExpenseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$globalExpenseArgs<ExtArgs>>): Prisma.Prisma__GlobalExpenseClient<runtime.Types.Result.GetResult<Prisma.$GlobalExpensePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  linkedDebt<T extends Prisma.Transaction$linkedDebtArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$linkedDebtArgs<ExtArgs>>): Prisma.Prisma__TransactionClient<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  payments<T extends Prisma.Transaction$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1319,6 +1644,7 @@ export interface TransactionFieldRefs {
   readonly apartmentId: Prisma.FieldRef<"Transaction", 'Int'>
   readonly categoryId: Prisma.FieldRef<"Transaction", 'Int'>
   readonly globalExpenseId: Prisma.FieldRef<"Transaction", 'Int'>
+  readonly linkedDebtId: Prisma.FieldRef<"Transaction", 'Int'>
 }
     
 
@@ -1731,6 +2057,49 @@ export type Transaction$globalExpenseArgs<ExtArgs extends runtime.Types.Extensio
    */
   include?: Prisma.GlobalExpenseInclude<ExtArgs> | null
   where?: Prisma.GlobalExpenseWhereInput
+}
+
+/**
+ * Transaction.linkedDebt
+ */
+export type Transaction$linkedDebtArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+}
+
+/**
+ * Transaction.payments
+ */
+export type Transaction$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
 }
 
 /**

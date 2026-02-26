@@ -123,7 +123,8 @@ export const TransactionScalarFieldEnum = {
   description: 'description',
   apartmentId: 'apartmentId',
   categoryId: 'categoryId',
-  globalExpenseId: 'globalExpenseId'
+  globalExpenseId: 'globalExpenseId',
+  linkedDebtId: 'linkedDebtId'
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
