@@ -9,24 +9,40 @@ export class ApartmentsService {
 		const apartments = await this.prisma.apartment.findMany({
 			orderBy: { number: 'asc' },
 			include: {
-				transactions: true,
+				transactions: {
+					include: {
+						payments: true, // ВАЖНО: тянем связи, чтобы знать, оплачен ли счет
+					},
+				},
 			},
 		});
 
 		return apartments.map((apt) => {
-			// Идеально простой подсчет благодаря вашей Ledger-архитектуре:
-			// просто суммируем все amount (минусы сами вычтутся, плюсы прибавятся)
-			const balance = apt.transactions.reduce(
-				(sum, tx) => sum + tx.amount,
-				0,
+			// 1. Считаем свободный баланс (Кошелек - Категория 1)
+			const walletBalance = apt.transactions
+				.filter((tx) => tx.categoryId === 1)
+				.reduce((sum, tx) => sum + tx.amount, 0);
+
+			// 2. Считаем сумму активных долгов (Минус + Не кошелек + Нет оплат)
+			const activeDebts = apt.transactions.filter(
+				(tx) =>
+					tx.amount < 0 &&
+					tx.categoryId !== 1 &&
+					tx.payments.length === 0,
+			);
+			// Берем по модулю (Math.abs), чтобы на фронтенд уходило положительное число долга
+			const totalDebt = Math.abs(
+				activeDebts.reduce((sum, tx) => sum + tx.amount, 0),
 			);
 
+			// Убираем массив транзакций из ответа, чтобы не перегружать сеть
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { transactions, ...apartmentData } = apt;
 
 			return {
 				...apartmentData,
-				balance, // Отдаем готовое число для фронтенда
+				walletBalance,
+				totalDebt,
 			};
 		});
 	}
