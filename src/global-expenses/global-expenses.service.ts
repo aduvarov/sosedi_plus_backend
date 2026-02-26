@@ -65,18 +65,64 @@ export class GlobalExpensesService {
 	}
 
 	async findAll() {
-		return this.prisma.globalExpense.findMany({
+		const expenses = await this.prisma.globalExpense.findMany({
 			orderBy: { date: 'desc' },
 			include: {
 				category: true,
 				transactions: {
-					select: {
-						apartment: {
-							select: { number: true },
-						},
+					include: {
+						apartment: true, // Подтягиваем данные квартиры для светофора
 					},
 				},
 			},
+		});
+
+		return expenses.map((expense) => {
+			let collectedAmount = 0;
+			// Создаем карту статусов для каждой квартиры участника
+			const apartmentStatuses: Record<
+				number,
+				{ id: number; number: number; isPaid: boolean }
+			> = {};
+
+			expense.transactions.forEach((tx) => {
+				// Инициализируем квартиру, если ее еще нет в списке
+				if (!apartmentStatuses[tx.apartmentId]) {
+					apartmentStatuses[tx.apartmentId] = {
+						id: tx.apartment.id,
+						number: tx.apartment.number,
+						isPaid: false, // По умолчанию все должны
+					};
+				}
+
+				// Если транзакция положительная — это оплата!
+				if (tx.amount > 0) {
+					collectedAmount += tx.amount;
+					apartmentStatuses[tx.apartmentId].isPaid = true; // Зажигаем зеленый свет
+				}
+			});
+
+			// Превращаем объект в массив и сортируем по номеру квартиры
+			const participants = Object.values(apartmentStatuses).sort(
+				(a, b) => a.number - b.number,
+			);
+
+			// Считаем прогресс (от 0 до 1) для полоски
+			const progress =
+				expense.totalAmount > 0
+					? collectedAmount / expense.totalAmount
+					: 0;
+
+			// Убираем сырые транзакции, чтобы не гонять лишний вес на мобилку
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { transactions, ...expenseData } = expense;
+
+			return {
+				...expenseData,
+				collectedAmount,
+				progress,
+				participants,
+			};
 		});
 	}
 }
