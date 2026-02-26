@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+	Injectable,
+	BadRequestException,
+	NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -66,54 +70,45 @@ export class GlobalExpensesService {
 
 	async findAll() {
 		const expenses = await this.prisma.globalExpense.findMany({
-			orderBy: { date: 'desc' },
+			// Сортировка: сначала активные (false), затем закрытые (true), внутри сортируем по дате
+			orderBy: [{ isClosed: 'asc' }, { date: 'desc' }],
 			include: {
 				category: true,
 				transactions: {
-					include: {
-						apartment: true, // Подтягиваем данные квартиры для светофора
-					},
+					include: { apartment: true },
 				},
 			},
 		});
 
 		return expenses.map((expense) => {
 			let collectedAmount = 0;
-			// Создаем карту статусов для каждой квартиры участника
 			const apartmentStatuses: Record<
 				number,
 				{ id: number; number: number; isPaid: boolean }
 			> = {};
 
 			expense.transactions.forEach((tx) => {
-				// Инициализируем квартиру, если ее еще нет в списке
 				if (!apartmentStatuses[tx.apartmentId]) {
 					apartmentStatuses[tx.apartmentId] = {
 						id: tx.apartment.id,
 						number: tx.apartment.number,
-						isPaid: false, // По умолчанию все должны
+						isPaid: false,
 					};
 				}
-
-				// Если транзакция положительная — это оплата!
 				if (tx.amount > 0) {
 					collectedAmount += tx.amount;
-					apartmentStatuses[tx.apartmentId].isPaid = true; // Зажигаем зеленый свет
+					apartmentStatuses[tx.apartmentId].isPaid = true;
 				}
 			});
 
-			// Превращаем объект в массив и сортируем по номеру квартиры
 			const participants = Object.values(apartmentStatuses).sort(
 				(a, b) => a.number - b.number,
 			);
-
-			// Считаем прогресс (от 0 до 1) для полоски
 			const progress =
 				expense.totalAmount > 0
 					? collectedAmount / expense.totalAmount
 					: 0;
 
-			// Убираем сырые транзакции, чтобы не гонять лишний вес на мобилку
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { transactions, ...expenseData } = expense;
 
@@ -123,6 +118,19 @@ export class GlobalExpensesService {
 				progress,
 				participants,
 			};
+		});
+	}
+
+	// ЗАКРЫТЬ ИЛИ ОТКРЫТЬ СБОР
+	async toggleStatus(id: number) {
+		const expense = await this.prisma.globalExpense.findUnique({
+			where: { id },
+		});
+		if (!expense) throw new NotFoundException('Сбор не найден');
+
+		return this.prisma.globalExpense.update({
+			where: { id },
+			data: { isClosed: !expense.isClosed },
 		});
 	}
 }

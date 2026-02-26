@@ -853,6 +853,7 @@ export const GlobalExpenseScalarFieldEnum = {
   description: 'description',
   totalAmount: 'totalAmount',
   date: 'date',
+  isClosed: 'isClosed',
   categoryId: 'categoryId'
 } as const
 

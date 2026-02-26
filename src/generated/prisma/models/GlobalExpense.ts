@@ -43,6 +43,7 @@ export type GlobalExpenseMinAggregateOutputType = {
   description: string | null
   totalAmount: number | null
   date: Date | null
+  isClosed: boolean | null
   categoryId: number | null
 }
 
@@ -51,6 +52,7 @@ export type GlobalExpenseMaxAggregateOutputType = {
   description: string | null
   totalAmount: number | null
   date: Date | null
+  isClosed: boolean | null
   categoryId: number | null
 }
 
@@ -59,6 +61,7 @@ export type GlobalExpenseCountAggregateOutputType = {
   description: number
   totalAmount: number
   date: number
+  isClosed: number
   categoryId: number
   _all: number
 }
@@ -81,6 +84,7 @@ export type GlobalExpenseMinAggregateInputType = {
   description?: true
   totalAmount?: true
   date?: true
+  isClosed?: true
   categoryId?: true
 }
 
@@ -89,6 +93,7 @@ export type GlobalExpenseMaxAggregateInputType = {
   description?: true
   totalAmount?: true
   date?: true
+  isClosed?: true
   categoryId?: true
 }
 
@@ -97,6 +102,7 @@ export type GlobalExpenseCountAggregateInputType = {
   description?: true
   totalAmount?: true
   date?: true
+  isClosed?: true
   categoryId?: true
   _all?: true
 }
@@ -192,6 +198,7 @@ export type GlobalExpenseGroupByOutputType = {
   description: string | null
   totalAmount: number
   date: Date
+  isClosed: boolean
   categoryId: number
   _count: GlobalExpenseCountAggregateOutputType | null
   _avg: GlobalExpenseAvgAggregateOutputType | null
@@ -223,6 +230,7 @@ export type GlobalExpenseWhereInput = {
   description?: Prisma.StringNullableFilter<"GlobalExpense"> | string | null
   totalAmount?: Prisma.FloatFilter<"GlobalExpense"> | number
   date?: Prisma.DateTimeFilter<"GlobalExpense"> | Date | string
+  isClosed?: Prisma.BoolFilter<"GlobalExpense"> | boolean
   categoryId?: Prisma.IntFilter<"GlobalExpense"> | number
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   transactions?: Prisma.TransactionListRelationFilter
@@ -233,6 +241,7 @@ export type GlobalExpenseOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  isClosed?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
@@ -246,6 +255,7 @@ export type GlobalExpenseWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"GlobalExpense"> | string | null
   totalAmount?: Prisma.FloatFilter<"GlobalExpense"> | number
   date?: Prisma.DateTimeFilter<"GlobalExpense"> | Date | string
+  isClosed?: Prisma.BoolFilter<"GlobalExpense"> | boolean
   categoryId?: Prisma.IntFilter<"GlobalExpense"> | number
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   transactions?: Prisma.TransactionListRelationFilter
@@ -256,6 +266,7 @@ export type GlobalExpenseOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  isClosed?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   _count?: Prisma.GlobalExpenseCountOrderByAggregateInput
   _avg?: Prisma.GlobalExpenseAvgOrderByAggregateInput
@@ -272,6 +283,7 @@ export type GlobalExpenseScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"GlobalExpense"> | string | null
   totalAmount?: Prisma.FloatWithAggregatesFilter<"GlobalExpense"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"GlobalExpense"> | Date | string
+  isClosed?: Prisma.BoolWithAggregatesFilter<"GlobalExpense"> | boolean
   categoryId?: Prisma.IntWithAggregatesFilter<"GlobalExpense"> | number
 }
 
@@ -279,6 +291,7 @@ export type GlobalExpenseCreateInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   category: Prisma.CategoryCreateNestedOneWithoutExpensesInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutGlobalExpenseInput
 }
@@ -288,6 +301,7 @@ export type GlobalExpenseUncheckedCreateInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   categoryId: number
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutGlobalExpenseInput
 }
@@ -296,6 +310,7 @@ export type GlobalExpenseUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   category?: Prisma.CategoryUpdateOneRequiredWithoutExpensesNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutGlobalExpenseNestedInput
 }
@@ -305,6 +320,7 @@ export type GlobalExpenseUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutGlobalExpenseNestedInput
 }
@@ -314,6 +330,7 @@ export type GlobalExpenseCreateManyInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   categoryId: number
 }
 
@@ -321,6 +338,7 @@ export type GlobalExpenseUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GlobalExpenseUncheckedUpdateManyInput = {
@@ -328,6 +346,7 @@ export type GlobalExpenseUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -346,6 +365,7 @@ export type GlobalExpenseCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  isClosed?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -360,6 +380,7 @@ export type GlobalExpenseMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  isClosed?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -368,6 +389,7 @@ export type GlobalExpenseMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  isClosed?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -452,6 +474,7 @@ export type GlobalExpenseCreateWithoutCategoryInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   transactions?: Prisma.TransactionCreateNestedManyWithoutGlobalExpenseInput
 }
 
@@ -460,6 +483,7 @@ export type GlobalExpenseUncheckedCreateWithoutCategoryInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutGlobalExpenseInput
 }
 
@@ -497,6 +521,7 @@ export type GlobalExpenseScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"GlobalExpense"> | string | null
   totalAmount?: Prisma.FloatFilter<"GlobalExpense"> | number
   date?: Prisma.DateTimeFilter<"GlobalExpense"> | Date | string
+  isClosed?: Prisma.BoolFilter<"GlobalExpense"> | boolean
   categoryId?: Prisma.IntFilter<"GlobalExpense"> | number
 }
 
@@ -504,6 +529,7 @@ export type GlobalExpenseCreateWithoutTransactionsInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   category: Prisma.CategoryCreateNestedOneWithoutExpensesInput
 }
 
@@ -512,6 +538,7 @@ export type GlobalExpenseUncheckedCreateWithoutTransactionsInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
   categoryId: number
 }
 
@@ -535,6 +562,7 @@ export type GlobalExpenseUpdateWithoutTransactionsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   category?: Prisma.CategoryUpdateOneRequiredWithoutExpensesNestedInput
 }
 
@@ -543,6 +571,7 @@ export type GlobalExpenseUncheckedUpdateWithoutTransactionsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -551,12 +580,14 @@ export type GlobalExpenseCreateManyCategoryInput = {
   description?: string | null
   totalAmount: number
   date?: Date | string
+  isClosed?: boolean
 }
 
 export type GlobalExpenseUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   transactions?: Prisma.TransactionUpdateManyWithoutGlobalExpenseNestedInput
 }
 
@@ -565,6 +596,7 @@ export type GlobalExpenseUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutGlobalExpenseNestedInput
 }
 
@@ -573,6 +605,7 @@ export type GlobalExpenseUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isClosed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -611,6 +644,7 @@ export type GlobalExpenseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   description?: boolean
   totalAmount?: boolean
   date?: boolean
+  isClosed?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.GlobalExpense$transactionsArgs<ExtArgs>
@@ -622,6 +656,7 @@ export type GlobalExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   totalAmount?: boolean
   date?: boolean
+  isClosed?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["globalExpense"]>
@@ -631,6 +666,7 @@ export type GlobalExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   totalAmount?: boolean
   date?: boolean
+  isClosed?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["globalExpense"]>
@@ -640,10 +676,11 @@ export type GlobalExpenseSelectScalar = {
   description?: boolean
   totalAmount?: boolean
   date?: boolean
+  isClosed?: boolean
   categoryId?: boolean
 }
 
-export type GlobalExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "totalAmount" | "date" | "categoryId", ExtArgs["result"]["globalExpense"]>
+export type GlobalExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "totalAmount" | "date" | "isClosed" | "categoryId", ExtArgs["result"]["globalExpense"]>
 export type GlobalExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.GlobalExpense$transactionsArgs<ExtArgs>
@@ -667,6 +704,7 @@ export type $GlobalExpensePayload<ExtArgs extends runtime.Types.Extensions.Inter
     description: string | null
     totalAmount: number
     date: Date
+    isClosed: boolean
     categoryId: number
   }, ExtArgs["result"]["globalExpense"]>
   composites: {}
@@ -1097,6 +1135,7 @@ export interface GlobalExpenseFieldRefs {
   readonly description: Prisma.FieldRef<"GlobalExpense", 'String'>
   readonly totalAmount: Prisma.FieldRef<"GlobalExpense", 'Float'>
   readonly date: Prisma.FieldRef<"GlobalExpense", 'DateTime'>
+  readonly isClosed: Prisma.FieldRef<"GlobalExpense", 'Boolean'>
   readonly categoryId: Prisma.FieldRef<"GlobalExpense", 'Int'>
 }
     

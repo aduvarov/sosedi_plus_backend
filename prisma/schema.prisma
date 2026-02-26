@@ -60,6 +60,8 @@ model GlobalExpense {
     totalAmount Float // Общая сумма
     date        DateTime @default(now())
 
+    isClosed Boolean @default(false) // СТАТУС СБОРА 
+
     categoryId Int
     category   Category @relation(fields: [categoryId], references: [id])
 
